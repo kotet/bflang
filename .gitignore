@@ -1,0 +1,16 @@
+.dub
+docs.json
+__dummy.html
+docs/
+bflang.so
+bflang.dylib
+bflang.dll
+bflang.a
+bflang.lib
+bflang-test-*
+*.exe
+*.o
+*.obj
+*.lst
+bflang
+dub.selections.json

@@ -1,0 +1,12 @@
+{
+	"description": "DSL for Brainf*ck",
+	"dependencies": {
+		"pegged": "0.4.4"
+	},
+	"authors": [
+		"kotet"
+	],
+	"copyright": "Copyright © 2019, kotet",
+	"license": "MIT",
+	"name": "bflang"
+}
