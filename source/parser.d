@@ -7,11 +7,13 @@ public import pegged.grammar : ParseTree;
 mixin(grammar(`
 BFL:
     Comp    < Stmt+
-    Stmt    < (Putc / Assign) ";"
-    Expr    < (Getc / Term)
+    Stmt    < (Putc / Push / Assign) ";"
+    Expr    < (Getc / Pop / Term)
     
     Putc    < "putc" Parens
     Getc    < "getc" "(" ")"
+    Push    < Identifier ".push" Parens
+    Pop     < Identifier ".pop" "(" ")"
     Assign  < Identifier "=" Expr
 
     Term    < Add / Sub / Factor
@@ -23,7 +25,7 @@ BFL:
     Div     < Factor "/" Factor
 
     Primary < Getc / Parens / Number / Char / Identifier
-    Parens  < "(" Term ")"
+    Parens  < "(" Expr ")"
 
     Char <- :"'" (.) :"'"
 

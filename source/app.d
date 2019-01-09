@@ -1,4 +1,6 @@
 import std.stdio;
+import std.file;
+import std.string;
 
 import parser;
 import genir;
@@ -8,21 +10,25 @@ void main(string[] args)
 {
 	if (args.length != 2)
 	{
-		stderr.writeln("Usage: bflang \"<code>\"");
+		stderr.writeln("Usage: bflang \"<filename>\"");
 		return;
 	}
-	ParseTree tree = BFL(args[1]);
+	string input = readText(args[1]).chomp();
+
+	ParseTree tree = BFL(input);
 	// stderr.writeln(tree);
 
-	if (tree.end != args[1].length)
+	if (tree.end != input.length)
 	{
-		stderr.writefln!"Parser error: %d - %d"(tree.end, args[1].length);
-		stderr.writeln(args[1][tree.end .. $]);
+		stderr.writefln!"Parser error: %d - %d"(tree.end, input.length);
+		stderr.writeln(input[tree.end .. $]);
 		return;
 	}
 
-	IR[] irs = tree.generateIR();
-	// stderr.writeln(irs);
+	auto irg = new IRGenerator();
+	irg.generateIR(tree);
 
-	emitBF(irs, getVariableOffset());
+	// stderr.writeln(irg.result);
+
+	emitBF(irg);
 }
