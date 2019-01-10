@@ -19,6 +19,10 @@ struct IR
         STORE,
         USER_PUSH,
         USER_POP,
+        ADD,
+        SUB,
+        MUL,
+        DIV,
     }
 
     this(Type type, long value)
@@ -107,6 +111,26 @@ class IRGenerator
                 auto s = tree.children[0].matches[0];
                 result ~= IR(IR.Type.USER_POP, stacks[s]);
                 break;
+            case "BFL.Add":
+                genIR(tree.children[0]);
+                genIR(tree.children[1]);
+                result ~= IR(IR.Type.ADD, -1);
+                return;
+            case "BFL.Sub":
+                genIR(tree.children[0]);
+                genIR(tree.children[1]);
+                result ~= IR(IR.Type.SUB, -1);
+                return;
+            case "BFL.Mul":
+                genIR(tree.children[0]);
+                genIR(tree.children[1]);
+                result ~= IR(IR.Type.MUL, -1);
+                return;
+            case "BFL.Div":
+                genIR(tree.children[0]);
+                genIR(tree.children[1]);
+                result ~= IR(IR.Type.DIV, -1);
+                return;
             default:
                 throw new Exception("Unknown Node: " ~ tree.name);
             }

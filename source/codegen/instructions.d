@@ -184,3 +184,31 @@ auto user_pop(long n, size_t stacknum)
     result ~= goto_stacktop(stacknum);
     return result;
 }
+
+auto add(size_t stacknum)
+{
+    string result;
+    result ~= "[";
+    result ~= rep('<', stacknum * 2);
+    result ~= "+";
+    result ~= rep('>', stacknum * 2);
+    result ~= "-]";
+    result ~= rep('<', stacknum);
+    result ~= "-";
+    result ~= rep('<', stacknum);
+    return result;
+}
+
+auto sub(size_t stacknum)
+{
+    string result;
+    result ~= "[";
+    result ~= rep('<', stacknum * 2);
+    result ~= "-";
+    result ~= rep('>', stacknum * 2);
+    result ~= "-]";
+    result ~= rep('<', stacknum);
+    result ~= "-";
+    result ~= rep('<', stacknum);
+    return result;
+}

@@ -38,6 +38,12 @@ void emitBF(IRGenerator irg)
         case USER_POP:
             user_pop(ir.value, irg.stacknum).emit();
             break;
+        case ADD:
+            add(irg.stacknum).emit();
+            break;
+        case SUB:
+            sub(irg.stacknum).emit();
+            break;
         default:
             throw new Exception("Unknown IR.Type: " ~ ir.type.text);
         }
