@@ -16,7 +16,7 @@ void main(string[] args)
 	string input = readText(args[1]).chomp();
 
 	ParseTree tree = BFL(input);
-	// stderr.writeln(tree);
+	stderr.writeln(tree);
 
 	if (tree.end != input.length)
 	{

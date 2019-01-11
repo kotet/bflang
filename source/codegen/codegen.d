@@ -44,6 +44,15 @@ void emitBF(IRGenerator irg)
         case SUB:
             sub(irg.stacknum).emit();
             break;
+        case MUL:
+            mul(irg.stacknum).emit();
+            break;
+        case IF:
+            "[".emit();
+            break;
+        case ENDIF:
+            ("[-]]" ~ destroy_stack(irg.stacknum)).emit();
+            break;
         default:
             throw new Exception("Unknown IR.Type: " ~ ir.type.text);
         }

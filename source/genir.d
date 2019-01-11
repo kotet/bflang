@@ -23,6 +23,8 @@ struct IR
         SUB,
         MUL,
         DIV,
+        IF,
+        ENDIF,
     }
 
     this(Type type, long value)
@@ -130,6 +132,12 @@ class IRGenerator
                 genIR(tree.children[0]);
                 genIR(tree.children[1]);
                 result ~= IR(IR.Type.DIV, -1);
+                return;
+            case "BFL.If":
+                genIR(tree.children[0]);
+                result ~= IR(IR.Type.IF, -1);
+                genIR(tree.children[1]);
+                result ~= IR(IR.Type.ENDIF, -1);
                 return;
             default:
                 throw new Exception("Unknown Node: " ~ tree.name);

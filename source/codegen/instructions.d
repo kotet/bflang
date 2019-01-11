@@ -212,3 +212,42 @@ auto sub(size_t stacknum)
     result ~= rep('<', stacknum);
     return result;
 }
+
+auto mul(size_t stacknum)
+{
+    string result;
+    result ~= "[";
+    result ~= rep('<', stacknum * 2);
+    result ~= "[";
+    result ~= rep('>', stacknum * 3);
+    result ~= "+";
+    result ~= rep('>', stacknum);
+    result ~= "+";
+    result ~= rep('<', stacknum * 4);
+    result ~= "-]";
+    result ~= rep('>', stacknum * 3);
+    result ~= "[";
+    result ~= rep('<', stacknum * 3);
+    result ~= "+";
+    result ~= rep('>', stacknum * 3);
+    result ~= "-]";
+    result ~= rep('<', stacknum);
+    result ~= "-]";
+
+    result ~= rep('<', stacknum * 2);
+    result ~= "[-]";
+
+    result ~= rep('>', stacknum * 4);
+    result ~= "[";
+    result ~= rep('<', stacknum * 4);
+    result ~= "+";
+    result ~= rep('>', stacknum * 4);
+    result ~= "-]";
+
+    result ~= rep('<', stacknum * 3);
+    result ~= "-";
+    result ~= rep('<', stacknum);
+
+    return result;
+}
+
