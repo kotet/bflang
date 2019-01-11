@@ -105,6 +105,11 @@ auto copy_stacktop(size_t stacknum)
 auto pop_and_store(size_t n, size_t stacknum)
 {
     string result;
+    result ~= goto_base(stacknum);
+    result ~= rep('<', n);
+    result ~= "[-]";
+    result ~= rep('>', n);
+    result ~= goto_stacktop(stacknum);
     result ~= "[";
     result ~= goto_base(stacknum);
     result ~= rep('<', n);
@@ -120,7 +125,9 @@ auto pop_and_store(size_t n, size_t stacknum)
 
 auto push_variable(size_t n, size_t stacknum)
 {
-    string result = set_stack(stacknum) ~ goto_base(stacknum);
+    string result;
+    result ~= set_stack(stacknum);
+    result ~= goto_base(stacknum);
     string lshift = rep('<', n);
     string rshift = rep('>', n);
 
@@ -128,8 +135,9 @@ auto push_variable(size_t n, size_t stacknum)
     result ~= goto_stacktop(stacknum);
     result ~= "+";
     result ~= goto_base(stacknum);
-    result ~= lshift ~ "-]>";
-    result ~= goto_stacktop(stacknum) ~ copy_stacktop(stacknum);
+    result ~= lshift ~ "-]" ~ rshift;
+    result ~= goto_stacktop(stacknum);
+    result ~= copy_stacktop(stacknum);
     result ~= pop_and_store(n, stacknum);
 
     return result;
@@ -251,3 +259,25 @@ auto mul(size_t stacknum)
     return result;
 }
 
+auto is_zero(size_t stacknum)
+{
+    string result;
+    result ~= rep('>', stacknum);
+    result ~= "+";
+    result ~= rep('<', stacknum);
+
+    result ~= "[[-]";
+    result ~= rep('>', stacknum);
+    result ~= "-";
+    result ~= rep('<', stacknum);
+    result ~= "]";
+
+    result ~= rep('>', stacknum);
+    result ~= "[-";
+    result ~= rep('<', stacknum);
+    result ~= "+";
+    result ~= rep('>', stacknum);
+    result ~= "]";
+    result ~= rep('<', stacknum);
+    return result;
+}

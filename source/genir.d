@@ -25,6 +25,7 @@ struct IR
         DIV,
         IF,
         ENDIF,
+        EQ,
     }
 
     this(Type type, long value)
@@ -60,10 +61,11 @@ class IRGenerator
             case "BFL.Factor":
             case "BFL.Primary":
             case "BFL.Stmt":
+            case "BFL.Compare":
                 assert(tree.children.length == 1);
                 genIR(tree.children[0]);
                 return;
-            case "BFL.Comp":
+            case "BFL.Compound":
                 foreach (subtree; tree.children)
                     genIR(subtree);
                 return;
@@ -132,6 +134,11 @@ class IRGenerator
                 genIR(tree.children[0]);
                 genIR(tree.children[1]);
                 result ~= IR(IR.Type.DIV, -1);
+                return;
+            case "BFL.Eq":
+                genIR(tree.children[0]);
+                genIR(tree.children[1]);
+                result ~= IR(IR.Type.EQ, -1);
                 return;
             case "BFL.If":
                 genIR(tree.children[0]);

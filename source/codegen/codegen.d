@@ -6,6 +6,7 @@ import codegen.instructions;
 import std.stdio;
 import std.conv : text;
 
+size_t indent = 0;
 alias emit = writefln;
 
 void emitBF(IRGenerator irg)
@@ -24,34 +25,39 @@ void emitBF(IRGenerator irg)
             emit(set_stack(irg.stacknum) ~ imm(ir.value, irg.stacknum));
             break;
         case PUSH_VAR:
-            push_variable(ir.value, irg.stacknum).emit();
+            emit(push_variable(ir.value, irg.stacknum));
             break;
         case PUTC:
             emit("." ~ destroy_stack(irg.stacknum));
             break;
         case STORE:
-            pop_and_store(ir.value, irg.stacknum).emit();
+            emit(pop_and_store(ir.value, irg.stacknum));
             break;
         case USER_PUSH:
-            user_push(ir.value, irg.stacknum).emit();
+            emit(user_push(ir.value, irg.stacknum));
             break;
         case USER_POP:
-            user_pop(ir.value, irg.stacknum).emit();
+            emit(user_pop(ir.value, irg.stacknum));
             break;
         case ADD:
-            add(irg.stacknum).emit();
+            emit(add(irg.stacknum));
             break;
         case SUB:
-            sub(irg.stacknum).emit();
+            emit(sub(irg.stacknum));
             break;
         case MUL:
-            mul(irg.stacknum).emit();
+            emit(mul(irg.stacknum));
             break;
         case IF:
+            indent++;
             "[".emit();
             break;
         case ENDIF:
+            indent--;
             ("[-]]" ~ destroy_stack(irg.stacknum)).emit();
+            break;
+        case EQ:
+            emit(sub(irg.stacknum) ~ is_zero(irg.stacknum));
             break;
         default:
             throw new Exception("Unknown IR.Type: " ~ ir.type.text);
