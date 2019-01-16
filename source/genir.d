@@ -25,6 +25,8 @@ struct IR
         DIV,
         IF,
         ENDIF,
+        WHILE,
+        ENDWHILE,
         EQ,
     }
 
@@ -145,6 +147,13 @@ class IRGenerator
                 result ~= IR(IR.Type.IF, -1);
                 genIR(tree.children[1]);
                 result ~= IR(IR.Type.ENDIF, -1);
+                return;
+            case "BFL.While":
+                genIR(tree.children[0]);
+                result ~= IR(IR.Type.WHILE, -1);
+                genIR(tree.children[1]);
+                genIR(tree.children[0]);
+                result ~= IR(IR.Type.ENDWHILE, -1);
                 return;
             default:
                 throw new Exception("Unknown Node: " ~ tree.name);

@@ -6,7 +6,6 @@ import codegen.instructions;
 import std.stdio;
 import std.conv : text;
 
-size_t indent = 0;
 alias emit = writefln;
 
 void emitBF(IRGenerator irg)
@@ -49,12 +48,16 @@ void emitBF(IRGenerator irg)
             emit(mul(irg.stacknum));
             break;
         case IF:
-            indent++;
             "[".emit();
             break;
         case ENDIF:
-            indent--;
             ("[-]]" ~ destroy_stack(irg.stacknum)).emit();
+            break;
+        case WHILE:
+            emit("[" ~ destroy_stack(irg.stacknum));
+            break;
+        case ENDWHILE:
+            emit("]" ~ destroy_stack(irg.stacknum));
             break;
         case EQ:
             emit(sub(irg.stacknum) ~ is_zero(irg.stacknum));

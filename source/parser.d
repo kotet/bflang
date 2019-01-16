@@ -7,9 +7,10 @@ public import pegged.grammar : ParseTree;
 mixin(grammar(`
 BFL:
     Compound    < Stmt+
-    Stmt    < ((Putc / Push / Assign) ";") / If
+    Stmt    < ((Putc / Push / Assign) ";") / If / While
     Expr    < (Compare / Pop / Getc)
-    
+
+    While   < "while" Parens "{" Compound "}"
     If      < "if" Parens "{" Compound "}"
     Putc    < "putc" Parens
     Getc    < "getc" "(" ")"
